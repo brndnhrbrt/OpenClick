@@ -1,0 +1,336 @@
+<style>
+
+span.glyphicon {
+    font-size: 2.2em;
+}
+
+span.checkMark  {
+  /*background-color: green;*/
+  color: #65AE58;
+}
+
+span.glyphicon-minus-sign {
+  font-size: 1.2em;
+}
+
+.qstn-btn {
+  height: 48px;
+  margin-bottom: 10px !important;
+}
+
+.question-btn {
+  width: 100%;
+  height: 48px;
+}
+
+.active-btn {
+  background-color: red;
+}
+
+.admin-btn-parent {
+  font-size: 0;
+}
+
+.admin-btn {
+  margin: 10px;
+  padding: 0;
+  width: 40%;
+  height: 100px;
+  height: 60px;
+  display: inline-block;
+}
+
+.btn-half {
+  margin: 10px;
+  padding: 0;
+  width: 40%;
+  height: 60px;
+  display: inline-block;
+}
+
+button {
+    display: block;
+    font-size: 16px;
+    margin: 0 0 10px 0;
+}
+
+.btnGroupContainer {
+  width: 100%;
+}
+
+.btn-big {
+  width: 90%;
+  height: 50px;
+   display: inline-block; 
+}
+.btn-small {
+  width: 10%;
+  height: 50px;
+   display: inline-block; 
+}
+
+#chart {
+  display: inline-block;
+    margin: 0;
+  /*  padding:  0;
+    width: 60%;
+    padding-left: 25%;*/
+    
+}
+
+#chart1 {
+  display: inline-block;
+    margin: 0;
+    margin: 10px;
+  /*  padding:  0;
+    width: 60%;
+    padding-left: 25%;*/
+    
+}
+
+#chart2 {
+  display: inline-block;
+    margin: 0;
+  /*  padding:  0;
+    width: 60%;
+    padding-left: 25%;*/
+    
+}
+
+.noClick {
+   pointer-events: none 
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  background: #333;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader {
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #333;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #333;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #333;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #333;
+    height: 5em;
+  }
+}
+
+.loaderContainer {
+  height: 50px;
+}
+
+@media only screen and (min-width: 150px) and (max-width: 650px) {
+  
+.btn-big {
+  width: 80%;
+  height: 50px;
+   display: inline-block; 
+}
+.btn-small {
+  width: 20%;
+  height: 50px;
+   display: inline-block; 
+}
+
+}
+
+.badConnection {
+  margin-top: -50px;
+  background-color: #D53428;
+  width: 100%;
+  /*border-radius: 5%;*/
+  height: 10px;
+}
+
+.goodConnection {
+  margin-top: -50px;
+  background-color: #65AE58;
+  width: 100%;
+  /*border-radius: 5%;*/
+  height: 10px;
+}
+
+.countBox {
+  margin-top: -40px;
+}
+
+.userCount {
+  display: inline-block;
+}
+
+.userCount > h3 {
+  color: #333;
+  margin-left: 5px;
+}
+
+
+</style>
+
+
+<div class="{{ click.connection }}">
+</div>
+
+<div class="jumbotron {{ click.socketIDReplaced }}">
+<h1> Your account has been logged into on another device </h1>
+</div>
+
+<div class="jumbotron {{ click.teacherMode }}">
+
+
+  <div class="noClick countBox">
+    <div>
+       <span class="glyphicon  glyphicon-user userCount"  aria-hidden="true"></span>
+       <div class="userCount"><h3>{{ click.userCount -1 }}</h3></div>
+    </div>
+  </div>
+
+
+<h3> {{ click.question.text }} </h3>
+
+<div id="container" class=" {{ click.chartView }} ">
+  <div id="chart"></div>
+</div>
+
+<div class="{{ click.dualChartView }}">
+    <h4> Current </h4>
+    <div id="container" class=" {{ click.dualChartView }} ">
+      <div id="chart1"></div>
+    </div>
+ 
+
+    <br><br><br>
+
+    <h4> Previous </h4>
+    <div id="container" class=" {{ click.dualChartView }} ">
+      <div id="chart2"></div>
+    </div>
+    </div>
+
+<div class="{{ click.adminButtons }}">
+
+<div class="admin-btn-parent">
+    <button class="btn btn-block {{ click.pollBtn }} admin-btn" ng-click="click.pollBtnToggle()">
+        <span ng-if="!click.pollMode || !click.pollOption" class="glyphicon  glyphicon-stop" aria-hidden="true"></span>
+        <span ng-if="click.pollMode && click.pollOption" class="glyphicon  glyphicon-refresh" aria-hidden="true"></span>
+    </button>
+</div>
+
+  <div class="admin-btn-parent">
+    <button class="btn btn-block btn-success admin-btn" ng-click="click.sendAnswerToUsers()">
+      <!-- <span> Send Answer </span> -->
+        <span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>
+    </button>
+
+    <button class="btn btn-block btn-danger admin-btn" ng-click="click.clearQuestion()">
+      <!-- <span> Clear Question </span> -->
+        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+    </button>
+  </div>
+
+</div>
+
+<div>
+  <button class="btn btn-block btn-primary btn-half" ng-click="click.createQuestion()">
+    <!-- <span> Create a Question </span> -->
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+
+  <button class="btn btn-block {{ click.trashBtn }} btn-half" ng-click="click.showDeleteBtn()">
+    <!-- <span> Create a Question </span> -->
+     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+  </button>
+
+
+  <div ng-repeat="question in click.questionContainer" class="">
+    <div class="btn-group btnGroupContainer">
+
+    <button ng-click="click.sendQuestion( question ) " class="btn btn-primary {{ click.questionBtn }}">
+      <span> {{ question.shortText }} </span>
+    </button>
+
+    <button ng-click="click.deleteQuestion( question ) " class="btn btn-danger {{ click.deleteBtn }}">
+       <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+    </button>
+
+    </div>
+    <br><br>
+  </div>
+  
+</div>
+
+
+</div>
+
+<div class="jumbotron {{ click.studentMode }}">
+
+<h3> {{ click.question.text }} </h3>
+  
+<div ng-repeat="button in click.questionButtons">
+  <button class="btn btn-block my-btn btn-primary qstn-btn {{ click.answerButtons[button] }}" ng-click="click.submitAnswer( button )">
+    {{ button }}
+  </button>
+</div>
+
+
+<div class=" {{ click.answerRightView }} noClick ">
+    <h3> Answer: </h3>
+    <button class="btn btn-block btn-success">
+      <span>{{ click.activeAnswer }}</span>
+    </button>
+  </div>
+
+  <div class=" {{ click.answerWrongView }} noClick ">
+    <h3> Answer: </h3>
+    <button class="btn btn-block btn-danger">
+      <span>{{ click.activeAnswer }}</span>
+    </button>
+  </div>
+
+   <span class="glyphicon glyphicon-ok checkMark {{ click.checkMark }}" aria-hidden="true"></span>
+
+</div>

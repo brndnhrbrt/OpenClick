@@ -1,0 +1,54 @@
+<div class="jumbotron text-center">
+
+	<h2> Create a question </h2>
+
+	<form>
+		<div class="form-group">
+			<label>The Question: </label>
+			<input type="text" class="form-control my-form" ng-model="question.createQuestionData.text">
+		</div>
+
+		<div>
+		<label>The Type: </label>
+		<button class="btn btn-block {{ question.createQuestionTypeColor }}" ng-click="question.SwitchType()">
+		<span> {{ question.createQuestionType }} </span>
+		</button>			
+		</div>
+
+		<div class="{{ question.createQuestionTypeMC }} ">
+		<label>The Choices: </label>
+
+		<button class="btn btn-block btn-primary" ng-click="question.addChoice()">
+			<span> Add a choice </span>
+		</button>	
+		</div>
+
+		<div ng-repeat="choice in question.createQuestionChoices">
+			<br>
+			<label> {{ choice + 1}} </label>
+			<div class="form-group">
+				<input type="text" class="form-control my-form" ng-model="question.createQuestionData.choices[choice]">
+			</div>
+		</div>
+
+		<div class="{{ question.createQuestionTypeMC }} ">
+			<label>The Answer</label>
+			<button class="btn btn-block btn-success {{ question.createQuestionShowMCAnswerBtn }}" ng-click="question.SwitchMFAnswer(question.createQuestionMFAnswer)">
+				<span> {{ question.createQuestionMFAnswer + 1 }} </span>
+			</button>	
+		</div>
+
+		<div class="{{ question.createQuestionTypeTF }} ">
+			<label>The Answer</label>
+			<button class="btn btn-block {{ question.createQuestionTFAnswerColor }}" ng-click="question.SwitchTFAnswer()">
+				<span> {{ question.createQuestionTFAnswer }} </span>
+			</button>	
+		</div>
+
+		<br><br><br>
+
+		<button type="submit" class="btn btn-block btn-primary" ng-click="question.registerQuestion()">
+			<span>Submit Question</span>
+		</button>
+	</form>
+</div>

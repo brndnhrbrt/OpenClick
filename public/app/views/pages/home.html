@@ -1,0 +1,57 @@
+<style>
+
+.admin-btn {
+  margin: 10px;
+  padding: 0;
+  width: 40%;
+  height: 100px;
+  height: 60px;
+  display: inline-block;
+}
+
+</style>
+
+<div class="jumbotron text-center {{ root.noUserView }} ">
+	<h1>Welcome to OpenClick!</h1>
+
+	<div ng-if="!main.loggedIn">
+		<a href="/login" class="btn btn-primary">Login</a>
+	</div>
+
+	<div ng-if="main.loggedIn">
+		<p>Start Clicking</p>
+		<a href="/click" class="btn btn-primary">Click</a>
+	</div>
+</div>
+
+<div class="jumbotron text-center {{ root.loggedInView }}">
+
+	<div class="{{ root.teacherView }}">
+
+		 <div class="admin-btn-parent">
+	    <button class="btn btn-block btn-primary admin-btn" ng-click="root.createClass()">
+	      <!-- <span> Send Answer </span> -->
+	        <span class="glyphicon  glyphicon-plus" aria-hidden="true"></span>
+	    </button>
+
+	    <button class="btn btn-block btn-primary admin-btn" ng-click="click.clearQuestion()">
+	      <!-- <span> Clear Question </span> -->
+	        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+	    </button>
+	  </div>
+
+  	</div>
+
+
+	<h3>Pick a class</h3>
+
+	<button ng-if="!root.isTeacher" class="btn btn-block btn-primary" style="margin-bottom: 20px;" ng-click="root.addClass()">
+	      <!-- <span> Send Answer </span> -->
+	        <span class="glyphicon  glyphicon-plus" aria-hidden="true"></span>
+	    </button>
+
+	 <button ng-repeat="className in root.myClasses" class="btn btn-block btn-primary " ng-click="root.goToClass(className.name + '/' + className.teacher )">
+    <span> {{ className.name }} with {{ className.teacher }} </span>
+  	</button>
+
+</div>
