@@ -42,7 +42,6 @@ angular.module('clickCtrl', [])
 		vm.activeClass = $routeParams.className;
 		vm.activeTeacher = $routeParams.teacherName;
 
-		// var socket = io('http://172.248.173.43:3001', { 'force new connection': true });
 		var socket = io('http://localhost:3001', { 'force new connection': true });
 
 		$rootScope.$on('$locationChangeStart', function (event, next, current) {
