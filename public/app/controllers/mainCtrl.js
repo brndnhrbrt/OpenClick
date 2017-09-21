@@ -136,17 +136,20 @@ angular.module('mainCtrl', [])
 			vm.message = '';
 			User.register(vm.registerData)
 				.success(function(data) {
-					vm.processing = false;
-					vm.message = data.message;
-					Auth.login(vm.registerData.username, vm.registerData.password)
-						.success(function(data) {		
-							if (data.success) {
-								vm.registerData = {};
-								$location.path('/');
-							}
-							else 
-								vm.error = data.message;
-					});
+					if(data.success) {
+						vm.processing = false;
+						vm.message = data.message;
+						Auth.login(vm.registerData.username, vm.registerData.password)
+							.success(function(data) {		
+								if (data.success) {
+									vm.registerData = {};
+									$location.path('/');
+								}
+								else
+									vm.error = data.message;						
+						});
+					} else
+						vm.error = data.message;
 				});
 		}
 
@@ -155,17 +158,20 @@ angular.module('mainCtrl', [])
 			vm.message = '';
 			User.registerTeacher(vm.registerData)
 				.success(function(data) {
-					vm.processing = false;
-					vm.message = data.message;
-					Auth.login(vm.registerData.username, vm.registerData.password)
-						.success(function(data) {		
-							if (data.success) {
-								vm.registerData = {};
-								$location.path('/');
-							}
-							else 
-								vm.error = data.message;
-					});
+					if(data.success) {
+						vm.processing = false;
+						vm.message = data.message;
+						Auth.login(vm.registerData.username, vm.registerData.password)
+							.success(function(data) {		
+								if (data.success) {
+									vm.registerData = {};
+									$location.path('/');
+								}
+								else 
+									vm.error = data.message;					
+						});
+					} else
+						vm.error = data.message					
 				});
 		}
 

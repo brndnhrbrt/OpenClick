@@ -43,12 +43,13 @@
   	</div>
 
 
-	<h3>Pick a class</h3>
+	<h3>Pick a class:</h3>
+	<br>
 
-	<button ng-if="!root.isTeacher" class="btn btn-block btn-primary" style="margin-bottom: 20px;" ng-click="root.addClass()">
+	<!-- <button ng-if="!root.isTeacher" class="btn btn-block btn-primary" style="margin-bottom: 20px;" ng-click="root.addClass()"> -->
 	      <!-- <span> Send Answer </span> -->
-	        <span class="glyphicon  glyphicon-plus" aria-hidden="true"></span>
-	    </button>
+	        <!-- <span class="glyphicon  glyphicon-plus" aria-hidden="true"></span> -->
+	    <!-- </button> -->
 
 	 <button ng-repeat="className in root.myClasses" class="btn btn-block btn-primary " ng-click="root.goToClass(className.name + '/' + className.teacher )">
     <span> {{ className.name }} with {{ className.teacher }} </span>

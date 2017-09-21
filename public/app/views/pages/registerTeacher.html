@@ -12,12 +12,16 @@
 
 			<div class="form-group">
 				<label>Username</label>
-				<input type="text" class="form-control my-form" ng-model="register.registerData.username">
+				<input autocapitalize="none" autocorrect="off" type="text" class="form-control my-form" ng-model="register.registerData.username">
 			</div>
 
 			<div class="form-group">
 				<label>Password</label>
 				<input type="password" class="form-control my-form" ng-model="register.registerData.password">
+			</div>
+
+			<div class="alert alert-danger" ng-if="register.error">
+				{{ register.error }}
 			</div>
 
 			<button type="submit" class="btn btn-block btn-primary my-btn">

@@ -1,5 +1,15 @@
 <style>
 
+.active-btn,
+.active-btn:hover,
+.active-btn:focus,
+.active-btn:active,
+.active-btn.active {
+  color: #ffffff;
+  background-color: #fff !important;
+  border-color: #333;
+}
+
 span.glyphicon {
     font-size: 2.2em;
 }
@@ -21,10 +31,6 @@ span.glyphicon-minus-sign {
 .question-btn {
   width: 100%;
   height: 48px;
-}
-
-.active-btn {
-  background-color: red;
 }
 
 .admin-btn-parent {
@@ -311,11 +317,14 @@ button {
 <h3> {{ click.question.text }} </h3>
   
 <div ng-repeat="button in click.questionButtons">
-  <button class="btn btn-block my-btn btn-primary qstn-btn {{ click.answerButtons[button] }}" ng-click="click.submitAnswer( button )">
+  <button class=" btn-block my-btn btn-primary qstn-btn {{ click.answerButtons[button] }}" ng-click="click.submitAnswer( button )">
     {{ button }}
   </button>
 </div>
 
+<div class="alert alert-success {{ click.receivedAnswer }}">
+  Vote Received.
+</div>
 
 <div class=" {{ click.answerRightView }} noClick ">
     <h3> Answer: </h3>

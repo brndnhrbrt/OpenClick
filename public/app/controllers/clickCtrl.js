@@ -17,6 +17,8 @@ angular.module('clickCtrl', [])
 		vm.reconnect = 0;
 		vm.checkMark = 'hide';
 		vm.connection = 'badConnection';
+		vm.receivedAnswer = 'hide';
+		vm.receivedAnswerTimer = null;
 
 		// Teacher Variables
 		vm.adminButtons = 'hide';
@@ -42,7 +44,10 @@ angular.module('clickCtrl', [])
 		vm.activeClass = $routeParams.className;
 		vm.activeTeacher = $routeParams.teacherName;
 
-		var socket = io('http://localhost:3001', { 'force new connection': true });
+		// var socket = io('http://192.168.0.18:3001', { 'force new connection': true });
+		// var socket = io('http://172.248.173.43:3001', { 'force new connection': true });
+		// var socket = io('http://96.247.32.133:3003', { 'force new connection': true });
+		var socket = io('http://localhost:3003', { 'force new connection': true });
 
 		$rootScope.$on('$locationChangeStart', function (event, next, current) {
 		  socket.disconnect();
@@ -59,7 +64,7 @@ angular.module('clickCtrl', [])
 				// if(a == answer)
 				// 	// vm.answerButtons[a] = 'active-btn'
 				// else
-					vm.answerButtons[a] = '';
+					vm.answerButtons[a] = 'btn-primary';
 			}
 			vm.usersAnswer = answer;
 
@@ -338,6 +343,7 @@ angular.module('clickCtrl', [])
 						vm.studentMode = 'show';
 					}
 					if(data.data == "") {
+						vm.receivedAnswer = 'hide';
 						vm.adminButtons = 'hide';
 						vm.answerRightView = 'hide';
 						vm.answerWrongView = 'hide';
@@ -447,10 +453,6 @@ angular.module('clickCtrl', [])
 					Click.refresh();
 				}
 			});
-
-
-
-			// this may be the issue the interval isnt being cleared
 
 
 
@@ -564,15 +566,22 @@ angular.module('clickCtrl', [])
 				Click.refresh();
 			});
 
-			socket.on('recieved-vote', function(vote) {
-				// vm.checkMark = 'show';
+			socket.on('received-vote', function(vote) {
 				Click.refresh();
-				vm.answerButtons[vote] = 'active-btn';
-				console.log('Your vote has been recieved by the teacher');
+				if(vm.receivedAnswerTimer != null) {
+					$timeout.cancel(vm.receivedAnswerTimer);
+				}
+				vm.answerButtons[vote] = 'btn-info';
+				vm.receivedAnswer = 'show';
+				vm.receivedAnswerTimer = $timeout(function() {
+			    	vm.receivedAnswer = 'hide';
+			    	vm.receivedAnswerTimer = null;
+			    }, 3000);
+				console.log('Your vote has been received by the teacher');
 			});
 
 			socket.on('send-stat', function(username, answer) {
-				socket.emit('recieved-vote', { "name": username, "className": vm.activeClass });
+				socket.emit('received-vote', { "name": username, "className": vm.activeClass });
 
 				if(vm.isTeacher && vm.pollMode == 0 && vm.pollOption == 1) {
 					var flag = false;
@@ -623,6 +632,7 @@ angular.module('clickCtrl', [])
 				vm.adminButtons = 'hide';
 				// vm.checkMark = 'hide';
 				vm.answerRightView = 'hide';
+				vm.receivedAnswer = 'hide';
 				vm.answerWrongView = 'hide';
 				vm.studentMode = 'hide';
 				vm.questionButtons = [];

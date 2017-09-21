@@ -16,11 +16,11 @@ mongoose.connect(config.database);
 io.on('connection', function(socket) {
 
 	socket.emit('register-request');
-
+	
 	// THIS NOW WORKS!!!
-	User.find({}, function(err, users) {
-		// console.log(users);
-	});
+	// User.find({}, function(err, users) {
+	// 	// console.log(users);
+	// });
 
 	// console.log('user has connected');
 
@@ -189,7 +189,6 @@ io.on('connection', function(socket) {
 					}
 				}
 
-
 				for(var i in classList) {
 					if(UID == classList[i].UID) {
 
@@ -200,11 +199,11 @@ io.on('connection', function(socket) {
 								flag = true;
 						}
 
-						var secondFlag = false;
-						for(var c in classList[i].classRoster) {
-							if(decoded.username == classList[i].classRoster[c])
-								secondFlag = true;
-						}
+						var secondFlag = true;
+						// for(var c in classList[i].classRoster) {
+						// 	if(decoded.username == classList[i].classRoster[c])
+						// 		secondFlag = true;
+						// }
 
 						if(secondFlag && !flag && !data.reconnect) { 
 							classList[i].activeUsers.push(decoded.username);
@@ -361,7 +360,8 @@ io.on('connection', function(socket) {
 			if(!err) {
 				var username = decoded.username;
 				for(var c in classList) {
-					if(classList[c].creator == teacherName) {
+					if(classList[c].creator == teacherName && !classList[c].pollMode) {
+
 						io.sockets.connected[socket.id].emit("message", "sent");
 
 						if(!classList[c].pollMode) {
@@ -393,7 +393,7 @@ io.on('connection', function(socket) {
 		});
 	});
 
-	socket.on('recieved-vote', function(data) {
+	socket.on('received-vote', function(data) {
 		var voteIndex;
 		for(var i in voteList) {
 			if(voteList[i].name == data.name && voteList[i].className == data.className) {
@@ -403,7 +403,7 @@ io.on('connection', function(socket) {
 
 		if(voteIndex) {
 			if(io.sockets.connected[voteList[voteIndex].socketID]) {
-				io.sockets.connected[voteList[voteIndex].socketID].emit("recieved-vote", voteList[voteIndex].answer);
+				io.sockets.connected[voteList[voteIndex].socketID].emit("received-vote", voteList[voteIndex].answer);
 			}
 			voteList.splice(voteIndex, 1);
 		}
